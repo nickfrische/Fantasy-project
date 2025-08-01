@@ -19,9 +19,9 @@ def create_stacked_blur_video(input_video, output_path):
     
     width, height = 1080, 1920
     
-    # Calculate section heights
-    blur_section_height = 480  # Top and bottom blur sections
-    main_section_height = 960  # Center section (larger for main content)
+    # Perfect proportions for amazing blur effect - simple and working
+    blur_section_height = 400  # Top and bottom blur sections  
+    main_section_height = 1120  # Center section
     
     cmd = [
         'ffmpeg',
@@ -30,19 +30,21 @@ def create_stacked_blur_video(input_video, output_path):
             # Create three copies of the input
             '[0:v]split=3[main][top][bottom];'
             
-            # Main video in center - crop to center section size
-            f'[main]crop={width}:{main_section_height}:0:(ih-{main_section_height})/2[main_cropped];'
+            # Main video in center - simple crop from center with some zoom out effect
+            f'[main]crop={width}:{main_section_height}:0:(ih-{main_section_height})/2,'
+            f'scale={int(width*0.9)}:-1:force_original_aspect_ratio=decrease,'
+            f'pad={width}:{main_section_height}:(ow-iw)/2:(oh-ih)/2:color=black[main_scaled];'
             
-            # Top blur section - crop top portion, scale to blur section height, then blur
+            # Top blur section - crop top portion, then blur
             f'[top]crop={width}:{blur_section_height}:0:0,'
-            f'gblur=sigma=30[top_blur];'
+            f'gblur=sigma=35[top_blur];'
             
-            # Bottom blur section - crop bottom portion, scale to blur section height, then blur
+            # Bottom blur section - crop bottom portion, then blur
             f'[bottom]crop={width}:{blur_section_height}:0:ih-{blur_section_height},'
-            f'gblur=sigma=30[bottom_blur];'
+            f'gblur=sigma=35[bottom_blur];'
             
             # Stack all three sections vertically
-            f'[top_blur][main_cropped][bottom_blur]vstack=inputs=3[final]'
+            f'[top_blur][main_scaled][bottom_blur]vstack=inputs=3[final]'
         ),
         '-map', '[final]',
         '-map', '0:a?',  # Include audio if present
