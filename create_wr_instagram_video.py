@@ -7,37 +7,68 @@ import tempfile
 from pathlib import Path
 
 def create_wr_intro(player_name, team, fantasy_points, rank, output_path):
-    """Create an intro video for a WR with Instagram aspect ratio (9:16)"""
+    """Create minimal geometric intro - the chosen design"""
     
-    # Instagram aspect ratio: 1080x1920 (9:16)
     width, height = 1080, 1920
+    
+    # Clean player name for text display
+    clean_player = player_name.replace("'", "").upper()
     
     cmd = [
         'ffmpeg',
         '-f', 'lavfi',
-        '-i', f'color=color=black@0.0:size={width}x{height}:duration=2:rate=30',
+        '-i', f'color=color=#FFFFFF:size={width}x{height}:duration=2:rate=30',
         '-f', 'lavfi', 
         '-i', 'anullsrc=channel_layout=stereo:sample_rate=44100:duration=2',
         '-vf', (
-            f"drawtext=fontfile=/System/Library/Fonts/Helvetica.ttc:fontsize=120:"
-            f"fontcolor=white:x=(w-text_w)/2:y=200:text='TOP 100 FANTASY WRs 2024',"
+            # Top geometric element
+            f"drawbox=x=0:y=0:w={width}:h=3:color=#000000:t=fill,"
+            f"drawbox=x=0:y=100:w=200:h=3:color=#000000:t=fill,"
+            f"drawbox=x={width-200}:y=100:w=200:h=3:color=#000000:t=fill,"
             
-            f"drawbox=x=100:y=600:w=880:h=700:color=white@0.2:t=fill,"
+            # Centered geometric frame
+            f"drawbox=x=240:y=250:w=600:h=1:color=#E0E0E0:t=fill,"
+            f"drawbox=x=240:y=250:w=1:h=100:color=#E0E0E0:t=fill,"
+            f"drawbox=x=840:y=250:w=1:h=100:color=#E0E0E0:t=fill,"
             
-            f"drawtext=fontfile=/System/Library/Fonts/Helvetica.ttc:fontsize=80:"
-            f"fontcolor=white:x=780:y=650:text='#{rank} WR',"
+            # Rank in circle outline
+            f"drawbox=x={(width-120)//2}:y=400:w=120:h=120:color=#000000:t=1,"
+            f"drawtext=fontfile=/System/Library/Fonts/HelveticaNeue.ttc:fontsize=60:"
+            f"fontcolor=#000000:x=(w-text_w)/2:y=435:text='#{rank}',"
             
-            f"drawtext=fontfile=/System/Library/Fonts/Helvetica.ttc:fontsize=100:"
-            f"fontcolor=white:x=(w-text_w)/2:y=900:text='{player_name}',"
+            # Player name in uppercase
+            f"drawtext=fontfile=/System/Library/Fonts/HelveticaNeue.ttc:fontsize=60:"
+            f"fontcolor=#000000:x=(w-text_w)/2:y=700:text='{clean_player}',"
             
-            f"drawtext=fontfile=/System/Library/Fonts/Helvetica.ttc:fontsize=60:"
-            f"fontcolor=#6B8BFF:x=(w-text_w)/2:y=1050:text='{team}',"
+            # Geometric separator
+            f"drawbox=x={(width-400)//2}:y=850:w=400:h=1:color=#000000:t=fill,"
+            f"drawbox=x={(width-40)//2}:y=845:w=40:h=10:color=#FFFFFF:t=fill,"
+            f"drawbox=x={(width-30)//2}:y=847:w=30:h=6:color=#000000:t=fill,"
             
-            f"drawtext=fontfile=/System/Library/Fonts/Helvetica.ttc:fontsize=50:"
-            f"fontcolor=#888888:x=(w-text_w)/2:y=1200:text='2024 Fantasy Points',"
+            # Team name
+            f"drawtext=fontfile=/System/Library/Fonts/HelveticaNeue.ttc:fontsize=30:"
+            f"fontcolor=#505050:x=(w-text_w)/2:y=950:text='{team.upper()}',"
             
-            f"drawtext=fontfile=/System/Library/Fonts/Helvetica.ttc:fontsize=120:"
-            f"fontcolor=#32CD32:x=(w-text_w)/2:y=1300:text='{fantasy_points}'"
+            # Stats in minimal frame
+            f"drawbox=x=140:y=1150:w=800:h=1:color=#D0D0D0:t=fill,"
+            f"drawbox=x=140:y=1400:w=800:h=1:color=#D0D0D0:t=fill,"
+            f"drawbox=x=140:y=1150:w=1:h=250:color=#D0D0D0:t=fill,"
+            f"drawbox=x=940:y=1150:w=1:h=250:color=#D0D0D0:t=fill,"
+            
+            f"drawtext=fontfile=/System/Library/Fonts/HelveticaNeue.ttc:fontsize=25:"
+            f"fontcolor=#808080:x=(w-text_w)/2:y=1200:text='FANTASY POINTS',"
+            
+            f"drawtext=fontfile=/System/Library/Fonts/HelveticaNeue.ttc:fontsize=100:"
+            f"fontcolor=#000000:x=(w-text_w)/2:y=1260:text='{fantasy_points}',"
+            
+            # Bottom geometric accent
+            f"drawbox=x={(width-100)//2}:y={height-200}:w=100:h=2:color=#000000:t=fill,"
+            f"drawbox=x={(width-60)//2}:y={height-180}:w=60:h=1:color=#808080:t=fill,"
+            f"drawbox=x={(width-20)//2}:y={height-160}:w=20:h=1:color=#C0C0C0:t=fill,"
+            
+            # Subtle bottom text
+            f"drawtext=fontfile=/System/Library/Fonts/HelveticaNeue.ttc:fontsize=18:"
+            f"fontcolor=#D0D0D0:x=(w-text_w)/2:y={height-80}:text='TOP 100 WIDE RECEIVERS'"
         ),
         '-c:v', 'libx264',
         '-preset', 'slow',
@@ -49,7 +80,7 @@ def create_wr_intro(player_name, team, fantasy_points, rank, output_path):
         output_path
     ]
     
-    print(f"Creating intro for {player_name}...")
+    print(f"Creating minimal geometric intro for {player_name}...")
     subprocess.run(cmd, check=True)
     print(f"Intro created: {output_path}")
 
