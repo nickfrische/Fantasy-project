@@ -34,7 +34,7 @@ def create_stacked_blur_video(input_video, output_path):
             f'gblur=sigma=30[top_blur];'
             f'[bottom]crop={width}:{blur_section_height}:0:ih-{blur_section_height},'
             f'gblur=sigma=30[bottom_blur];'
-            f'color=black:size={width}x{main_section_height}:duration=10:rate=30[middle_empty];'
+            f'color=black:size={width}x{main_section_height}:duration=90:rate=30[middle_empty];'
             f'[top_blur][middle_empty][bottom_blur]vstack=inputs=3[blur_bg];'
             # Scale with zoom factor
             f"[overlay_main]scale=w='min({int(width * zoom_factor)},iw*{int(main_section_height * zoom_factor)}/ih)':h='min({int(main_section_height * zoom_factor)},ih*{int(width * zoom_factor)}/iw)',"
@@ -44,7 +44,7 @@ def create_stacked_blur_video(input_video, output_path):
         ),
         '-map', '[final]', '-map', '0:a?',
         '-c:v', 'libx264', '-preset', 'fast', '-crf', '25',
-        '-c:a', 'aac', '-b:a', '128k', '-r', '30', '-t', '10', '-y', output_path
+        '-c:a', 'aac', '-b:a', '128k', '-r', '30', '-t', '90', '-y', output_path
     ]
     
     print(f"Creating stacked blur video with 130% zoom...")
@@ -119,7 +119,7 @@ def process_wr_stacked_video():
         
         # Step 2: Download YouTube video
         print("Step 2: Downloading YouTube highlights...")
-        download_youtube_video(youtube_url, youtube_path, duration=10)
+        download_youtube_video(youtube_url, youtube_path, duration=90)
         
         # Step 3: Create stacked blur video
         print("Step 3: Creating stacked blur video...")
