@@ -51,28 +51,29 @@ def create_stacked_blur_video(input_video, output_path):
     subprocess.run(cmd, check=True)
 
 def concatenate_intro_and_blur(intro_path, blur_path, output_path):
-    """Concatenate intro video with stacked blur video"""
-    concat_list_path = "concat_list.txt"
-    
-    with open(concat_list_path, 'w') as f:
-        f.write(f"file '{intro_path}'\n")
-        f.write(f"file '{blur_path}'\n")
-    
+    """Concatenate intro video with stacked blur video with proper audio sync"""
     cmd = [
         'ffmpeg',
-        '-f', 'concat',
-        '-safe', '0',
-        '-i', concat_list_path,
-        '-c', 'copy',
+        '-i', intro_path,
+        '-i', blur_path,
+        '-filter_complex', (
+            '[0:v][1:v]concat=n=2:v=1:a=0[outv];'
+            '[0:a][1:a]concat=n=2:v=0:a=1[outa]'
+        ),
+        '-map', '[outv]',
+        '-map', '[outa]',
+        '-c:v', 'libx264',
+        '-c:a', 'aac',
+        '-preset', 'fast',
+        '-crf', '23',
+        '-b:a', '128k',
+        '-ar', '44100',
+        '-ac', '2',
         '-y', output_path
     ]
     
-    print("Combining intro with stacked blur video...")
+    print("Combining intro with stacked blur video with proper audio sync...")
     subprocess.run(cmd, check=True)
-    
-    # Clean up
-    if os.path.exists(concat_list_path):
-        os.remove(concat_list_path)
 
 def process_wr_stacked_video():
     """Process one WR from bottom of top 75 with complete workflow"""
