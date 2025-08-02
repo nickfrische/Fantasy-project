@@ -106,12 +106,12 @@ def process_wr_stacked_video():
     
     print(f"Processing #{rank} {player_name} ({team}) - {fantasy_points} points")
     
-    # Create file paths
+    # Create file paths with ranking first
     safe_name = player_name.replace("'", "").replace(" ", "_")
-    intro_path = f"output/{safe_name}_intro.mp4"
-    youtube_path = f"output/{safe_name}_youtube_raw.mp4"
-    blur_path = f"output/{safe_name}_stacked_blur.mp4"
-    final_path = f"output/{safe_name}_FINAL_STACKED_WITH_INTRO.mp4"
+    intro_path = f"output/{rank}_{safe_name}_intro.mp4"
+    youtube_path = f"output/{rank}_{safe_name}_youtube_raw.mp4"
+    blur_path = f"output/{rank}_{safe_name}_stacked_blur.mp4"
+    final_path = f"output/{rank}_{safe_name}_FINAL_STACKED_WITH_INTRO.mp4"
     
     try:
         # Step 1: Create intro
