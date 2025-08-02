@@ -20,7 +20,7 @@ def create_proper_stacked_blur_video(input_video, output_path):
     width, height = 1080, 1920
     
     # Calculate section heights (EXACT same as original)
-    blur_section_height = 480  # Top and bottom blur sections
+    blur_section_height = 540  # Top and bottom blur sections
     main_section_height = 960  # Center section
     
     cmd = [
