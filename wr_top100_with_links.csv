@@ -1,8 +1,8 @@
-Rank,PlayerName,Team,FantasyPoints,Posted,Notes,YouTubeLink
-1,Ja'Marr Chase,CIN,276,True,,https://www.youtube.com/watch?v=wjWQ6UHGj9Y
-2,Justin Jefferson,MIN,214,True,,https://www.youtube.com/watch?v=7r8p9NsxUzQ
-3,Amon-Ra St. Brown,DET,201,True,,https://www.youtube.com/watch?v=A339ONYQuZU
-4,Brian Thomas,JAX,197,True,,https://www.youtube.com/watch?v=NzNLh_NXbPs
+Rank,PlayerName,Team,FantasyPoints,False,Notes,YouTubeLink
+1,Ja'Marr Chase,CIN,276,False,,https://www.youtube.com/watch?v=wjWQ6UHGj9Y
+2,Justin Jefferson,MIN,214,False,,https://www.youtube.com/watch?v=7r8p9NsxUzQ
+3,Amon-Ra St. Brown,DET,201,False,,https://www.youtube.com/watch?v=A339ONYQuZU
+4,Brian Thomas,JAX,197,False,,https://www.youtube.com/watch?v=NzNLh_NXbPs
 5,Terry McLaurin,WAS,186,False,,https://www.youtube.com/watch?v=obzgVSexFJs
 6,Drake London,ATL,181,False,,https://www.youtube.com/watch?v=AbZtV2YJ3E0
 7,Mike Evans,TAM,166,False,,https://www.youtube.com/watch?v=AzD_zjZcjTA
@@ -73,29 +73,4 @@ Rank,PlayerName,Team,FantasyPoints,Posted,Notes,YouTubeLink
 72,Tyler Lockett,SEA,72,False,,https://www.youtube.com/watch?v=3ecRMJRbymo
 73,Dontayvion Wicks,GNB,72,False,,https://www.youtube.com/watch?v=eiVh9zb35mk
 74,Darius Slayton,NYG,71,False,,https://www.youtube.com/watch?v=7nrSqaLhBmk
-75,Josh Palmer,LAC,68,False,,https://www.youtube.com/watch?v=xTN1fmrr3fM
-76,Mack Hollins,BUF,68,False,,https://www.youtube.com/watch?v=dQEVRFpL8Do
-77,Olamide Zaccheaus,WAS,67,False,,https://www.youtube.com/watch?v=G6gubj3lW7I
-78,Marquez Valdes-Scantling,2TM,66,False,,https://www.youtube.com/watch?v=jVuv89NT9_U
-79,Devaughn Vele,DEN,66,False,,https://www.youtube.com/watch?v=lAPusweUH3M
-80,Parker Washington,JAX,65,False,,https://www.youtube.com/watch?v=nlFP2eeUFzw
-81,Ricky Pearsall,SFO,63,False,,https://www.youtube.com/watch?v=x1KWfkG99d8
-82,Jalen Coker,CAR,61,False,,https://www.youtube.com/watch?v=NIO_bQI_BPc
-83,Elijah Moore,CLE,60,False,,https://www.youtube.com/watch?v=hnVWr7a4K1A
-84,Rashid Shaheed,NOR,60,False,,https://www.youtube.com/watch?v=nB8nlmoE-98
-85,Tim Patrick,DET,59,False,,https://www.youtube.com/watch?v=3qpqGoFLWuE
-86,Tutu Atwell,LAR,57,False,,https://www.youtube.com/watch?v=_x0UIDU2vr8
-87,Diontae Johnson,3TM,56,False,,https://www.youtube.com/watch?v=0pKZBdSkSYg
-88,David Moore,CAR,53,False,,https://www.youtube.com/watch?v=Uls7qxMU4Dk
-89,Greg Dortch,ARI,53,False,,https://www.youtube.com/watch?v=VKUy4BmjB9I
-90,Noah Brown,WAS,51,False,,https://www.youtube.com/watch?v=87c32Y0Wd6w
-91,Cedric Tillman,CLE,51,False,,https://www.youtube.com/watch?v=VyZVi2jnw98
-92,Sterling Shepard,TAM,48,False,,https://www.youtube.com/watch?v=2x2H0l86vDA
-93,Chris Olave,NOR,45,False,,https://www.youtube.com/watch?v=i8EAdEGL41Q
-94,Brandin Cooks,DAL,44,False,,https://www.youtube.com/watch?v=rt23YrYG3g8
-95,Christian Kirk,JAX,44,False,,https://www.youtube.com/watch?v=GMn-K09Wrj8
-96,Rashee Rice,KAN,41,False,,https://www.youtube.com/watch?v=Xb_yEfDjDh4
-97,Justin Watson,KAN,41,False,,https://www.youtube.com/watch?v=2BWbK41NGJU
-98,Van Jefferson,PIT,40,False,,https://www.youtube.com/watch?v=25BX6U3JlQY
-99,Kalif Raymond,DET,40,False,,https://www.youtube.com/watch?v=-rUHbQnfaq4
-100,Troy Franklin,DEN,39,False,,https://www.youtube.com/watch?v=PBe5pGCqdSg
+75,Josh Palmer,LAC,68,True,,https://www.youtube.com/watch?v=xTN1fmrr3fM
