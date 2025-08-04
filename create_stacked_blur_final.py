@@ -116,7 +116,7 @@ def process_wr_stacked_video():
     try:
         # Step 1: Create intro
         print("Step 1: Creating geometric intro...")
-        create_wr_intro(player_name, team, rank, fantasy_points, intro_path)
+        create_wr_intro(player_name, team, fantasy_points, rank, intro_path)
         
         # Step 2: Download YouTube video
         print("Step 2: Downloading YouTube highlights...")
