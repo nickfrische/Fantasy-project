@@ -84,8 +84,8 @@ def create_wr_intro(player_name, team, fantasy_points, rank, output_path):
     subprocess.run(cmd, check=True)
     print(f"Intro created: {output_path}")
 
-def download_youtube_video(url, output_path, duration=30):
-    """Download first N seconds of a YouTube video"""
+def download_youtube_video(url, output_path, duration=30, start_time=0):
+    """Download N seconds of a YouTube video starting from start_time"""
     
     # Try different ways to call yt-dlp
     yt_dlp_commands = [
@@ -111,17 +111,23 @@ def download_youtube_video(url, output_path, duration=30):
         print("yt-dlp not found. Please install it with: pip install yt-dlp")
         raise Exception("yt-dlp not available")
     
+    # Calculate end time
+    end_time = start_time + duration
+    
     # Build the download command
     cmd = yt_dlp_cmd + [
         '-f', 'bestvideo[height<=1080]+bestaudio/best[height<=1080]',
         '--merge-output-format', 'mp4',
-        '--download-sections', f'*0-{duration}',
+        '--download-sections', f'*{start_time}-{end_time}',
         '-o', output_path,
         '--no-playlist',
         url
     ]
     
-    print(f"Downloading first {duration} seconds from YouTube: {url}")
+    if start_time > 0:
+        print(f"Downloading {duration} seconds from YouTube starting at {start_time}s: {url}")
+    else:
+        print(f"Downloading first {duration} seconds from YouTube: {url}")
     subprocess.run(cmd, check=True)
     print(f"Downloaded: {output_path}")
 
