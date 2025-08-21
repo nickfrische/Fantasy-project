@@ -9,12 +9,13 @@ import sys
 sys.path.append('/Users/nickfrische/Desktop/Fantasy project')
 from create_wr_instagram_video import create_wr_intro, download_youtube_video
 
-def create_stacked_blur_video(input_video, output_path):
+def create_stacked_blur_video(input_video, output_path, player_name, team, fantasy_points, rank):
     """
-    Creates stacked blur video with Touch V3 settings:
+    Creates stacked blur video with Touch V3 settings and text overlays:
     - 640px blur sections
     - Middle video zoomed to 130% for optimal balance
     - Blur touches top and bottom of middle video
+    - Text overlays with player info
     """
     
     width, height = 1080, 1920
@@ -25,6 +26,12 @@ def create_stacked_blur_video(input_video, output_path):
     # Zoom the middle video by 130% (Touch V3 setting)
     zoom_factor = 1.3
     
+    # Clean player name for display
+    clean_player = player_name.replace("'", "")
+    
+    # Duration of the video
+    duration = 90
+    
     cmd = [
         'ffmpeg',
         '-i', input_video,
@@ -34,20 +41,29 @@ def create_stacked_blur_video(input_video, output_path):
             f'gblur=sigma=30[top_blur];'
             f'[bottom]crop={width}:{blur_section_height}:0:ih-{blur_section_height},'
             f'gblur=sigma=30[bottom_blur];'
-            f'color=black:size={width}x{main_section_height}:duration=90:rate=30[middle_empty];'
+            f'color=black:size={width}x{main_section_height}:duration={duration}:rate=30[middle_empty];'
             f'[top_blur][middle_empty][bottom_blur]vstack=inputs=3[blur_bg];'
             # Scale with zoom factor
             f"[overlay_main]scale=w='min({int(width * zoom_factor)},iw*{int(main_section_height * zoom_factor)}/ih)':h='min({int(main_section_height * zoom_factor)},ih*{int(width * zoom_factor)}/iw)',"
             f"crop={width}:{main_section_height},"
             f"setsar=1[overlay_scaled];"
-            f'[blur_bg][overlay_scaled]overlay=0:{blur_section_height}[final]'
+            f'[blur_bg][overlay_scaled]overlay=0:{blur_section_height}[with_video];'
+            # Add text overlays with white fill and black stroke
+            f'[with_video]drawtext=fontfile=/System/Library/Fonts/Arial\\ Bold.ttf:fontsize=60:'
+            f'fontcolor=white:bordercolor=black:borderw=2:x=(w-text_w)/2:y=280:text=\'WR #{rank}\':enable=\'between(t,0,{duration})\','
+            f'drawtext=fontfile=/System/Library/Fonts/Arial\\ Bold.ttf:fontsize=50:'
+            f'fontcolor=white:bordercolor=black:borderw=2:x=(w-text_w)/2:y=1420:text=\'{clean_player}\':enable=\'between(t,0,{duration})\','
+            f'drawtext=fontfile=/System/Library/Fonts/Arial\\ Bold.ttf:fontsize=40:'
+            f'fontcolor=white:bordercolor=black:borderw=2:x=(w-text_w)/2:y=1500:text=\'{team.upper()}\':enable=\'between(t,0,{duration})\','
+            f'drawtext=fontfile=/System/Library/Fonts/Arial\\ Bold.ttf:fontsize=40:'
+            f'fontcolor=white:bordercolor=black:borderw=2:x=(w-text_w)/2:y=1580:text=\'{fantasy_points} FANTASY POINTS\':enable=\'between(t,0,{duration})\'[final]'
         ),
         '-map', '[final]', '-map', '0:a?',
         '-c:v', 'libx264', '-preset', 'fast', '-crf', '25',
         '-c:a', 'aac', '-b:a', '128k', '-r', '30', '-t', '90', '-y', output_path
     ]
     
-    print(f"Creating stacked blur video with 130% zoom...")
+    print(f"Creating stacked blur video with 130% zoom and text overlays...")
     subprocess.run(cmd, check=True)
 
 def concatenate_intro_and_blur(intro_path, blur_path, output_path):
@@ -124,7 +140,7 @@ def process_wr_stacked_video():
         
         # Step 3: Create stacked blur video
         print("Step 3: Creating stacked blur video...")
-        create_stacked_blur_video(youtube_path, blur_path)
+        create_stacked_blur_video(youtube_path, blur_path, player_name, team, fantasy_points, rank)
         
         # Step 4: Concatenate intro + blur video
         print("Step 4: Combining intro with stacked blur...")

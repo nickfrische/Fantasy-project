@@ -1,159 +1,212 @@
 # Fantasy Football WR Instagram Video Generator
 
-## Current Status ✅ PRODUCTION READY
+## Production Status ✅ FULLY OPERATIONAL
 
-We have successfully built and tested a complete automated system that generates Instagram-ready videos for fantasy football wide receivers with a professional minimal geometric intro design.
+**Complete automated system for generating Instagram-ready WR videos with stacked blur effects and text overlays.**
 
-### What's Working Right Now
+---
 
-1. **Main Script**: `create_wr_instagram_video.py`
-   - Reads from WR CSV data (`wr_top100_with_links.csv`) 
-   - Automatically processes the next unposted WR
-   - **NEW**: Generates minimal geometric intro design (chosen final design)
-   - Downloads real YouTube highlights (first 30 seconds)
-   - Converts to Instagram aspect ratio (9:16 / 1080x1920)
-   - Combines intro + highlights into final video
-   - Updates CSV to mark player as posted
-   - Outputs to `output/` directory
-
-2. **Minimal Geometric Intro Design** ✨
-   - Clean white background with black geometric elements
-   - Circle outline around rank number
-   - Player name in uppercase with HelveticaNeue font
-   - Team name and fantasy points in minimal frames
-   - Subtle "TOP 100 WIDE RECEIVERS" branding
-   - Professional, Instagram-ready aesthetic
-   - 2-second duration with audio
-
-3. **Data Source**: `wr_top100_with_links.csv`
-   - Contains 100 WRs with rank, name, team, fantasy points, YouTube links
-   - Tracks posted status to avoid duplicates
-   - **TESTED**: Brian Thomas (#4 WR, JAX) successfully processed
-
-4. **Output**: Instagram-ready MP4 videos
-   - 2-second minimal geometric intro
-   - 30 seconds of actual highlight footage
-   - Perfect 9:16 aspect ratio for Instagram/TikTok/Reels
-   - High quality with audio preserved
-
-### Tech Stack
-
-- **Python 3** with subprocess for FFmpeg control
-- **yt-dlp** for YouTube video downloads
-- **FFmpeg** for video processing, scaling, concatenation
-- **CSV** for data management and tracking
-
-## Current Project Structure
-
-```
-Fantasy project/
-├── create_wr_instagram_video.py    # Main production script
-├── wr_top100_with_links.csv        # WR data with YouTube links
-├── requirements.txt                 # Python dependencies
-├── qb_top100_with_links.csv        # QB data (future use)
-├── rb_top100_with_links.csv        # RB data (future use) 
-├── te_top100.csv                   # TE data (future use)
-├── output/                          # Generated videos
-│   └── Brian_Thomas_instagram_final.mp4
-└── venv/                           # Python virtual environment
-```
-
-## How to Use (Production Ready)
+## Quick Start (Copy & Paste)
 
 ```bash
 cd "/Users/nickfrische/Desktop/Fantasy project"
-python3 create_wr_instagram_video.py
+source venv/bin/activate
+python3 create_stacked_blur_final.py
 ```
 
-This will automatically:
-1. Find the next unposted WR in the CSV
-2. Generate minimal geometric intro with their stats
-3. Download their YouTube highlights (30 seconds)
-4. Convert to Instagram format (1080x1920)
-5. Combine intro + highlights
-6. Save final video to output/
-7. Mark player as posted in CSV
+**That's it!** The script will automatically process the next unposted WR from the top 75 rankings.
 
-## Intro Design Features
+---
 
-### Minimal Geometric Style
-- **Background**: Clean white (#FFFFFF)
-- **Accents**: Black geometric lines and frames
-- **Rank Display**: Circle outline with rank number
-- **Typography**: HelveticaNeue for modern look
-- **Layout**: Centered, balanced composition
-- **Branding**: Subtle bottom text
-- **Duration**: 2 seconds
+## What The System Does
 
-### Design Elements
-- Top geometric accent lines
-- Centered frame elements
-- Circle rank badge
-- Uppercase player name
-- Team name in gray
-- Stats in minimal frame box
-- Bottom geometric accents
-- Subtle branding text
+### 🎬 Complete Video Creation Pipeline
 
-## What Needs to Be Done for Scale
+1. **Finds Next Player**: Automatically selects the highest-ranked unposted WR from the top 75
+2. **Creates Geometric Intro**: 2-second minimal design with player stats and ranking
+3. **Downloads YouTube Highlights**: 90 seconds of actual game footage
+4. **Creates Stacked Blur Effect**: Professional video effect with text overlays
+5. **Combines Everything**: Intro + stacked blur highlights into final Instagram video
+6. **Updates Tracking**: Marks player as posted in CSV to prevent duplicates
+7. **Cleans Up**: Removes intermediate files, keeps only final output
 
-### 1. Multi-Position Support 📋
-- **Status**: WR system complete and tested
-- **Next**: Extend to RBs, QBs, TEs using existing CSV files
-- **Action**: Modify script to handle multiple position types
+### 📊 Text Overlays Include
+- **WR Rank** (e.g., "WR #65")
+- **Player Name** (e.g., "AMARI COOPER")
+- **Team** (e.g., "2TM")
+- **Fantasy Points** (e.g., "79 FANTASY POINTS")
 
-### 2. Batch Processing 🔄
-- **Current**: Processes one player at a time (tested working)
-- **Enhancement**: Add batch processing options
-- **Command**: Add argument for processing multiple players
+### 🎥 Final Output
+- **Duration**: ~92 seconds (2s intro + 90s highlights)
+- **Format**: 1080x1920 Instagram/TikTok ready
+- **Quality**: Professional with audio
+- **Location**: `output/[RANK]_[PLAYER_NAME]_FINAL_STACKED_WITH_INTRO.mp4`
 
-### 3. Content Variety 📽️
-- **Current**: Consistent minimal geometric intro (professional)
-- **Future**: Position-specific intro variations
-- **Options**: Different layouts for QB/RB/TE while maintaining style
+---
 
-## Dependencies
+## File Structure
 
+```
+Fantasy project/
+├── create_stacked_blur_final.py      # Main script - RUN THIS
+├── create_wr_instagram_video.py      # Helper functions
+├── wr_top100_with_links.csv          # Player data & YouTube links
+├── venv/                             # Python virtual environment
+├── output/                           # Generated videos appear here
+└── CLAUDE.md                         # This documentation
+```
+
+---
+
+## How It Handles Errors (Seamlessly)
+
+### Common Issue: YouTube Download Failures
+**What happens**: The `--download-sections` parameter sometimes fails with streaming format errors.
+
+**How it's handled**: The script automatically:
+1. Downloads the full YouTube video
+2. Trims it to exactly 90 seconds using FFmpeg
+3. Continues with the workflow
+
+**No manual intervention needed** - it's all automated in the error handling.
+
+---
+
+## Step-by-Step Process Breakdown
+
+### 1. Virtual Environment Activation
 ```bash
-pip install yt-dlp
-# FFmpeg must be installed separately (confirmed working)
+cd "/Users/nickfrische/Desktop/Fantasy project"
+source venv/bin/activate
+```
+**Why**: Ensures all Python dependencies (yt-dlp, etc.) are available.
+
+### 2. Player Selection
+- Script reads `wr_top100_with_links.csv`
+- Finds highest-ranked player where `Posted=False` in top 75
+- Example: "Processing #65 Amari Cooper (2TM) - 79 points"
+
+### 3. Intro Creation (2 seconds)
+- White background with black geometric elements
+- Circle outline around rank number
+- Player name in HelveticaNeue font
+- Team and fantasy points in minimal frames
+- Saves as: `output/[RANK]_[PLAYER]_intro.mp4`
+
+### 4. YouTube Download & Trim (90 seconds)
+**Primary method** (with fallback):
+```bash
+yt-dlp --download-sections '*0-90' [YouTube_URL]
 ```
 
-## Key Functions in Production Script
+**Fallback method** (when primary fails):
+```bash
+# Download full video
+yt-dlp [YouTube_URL]
+# Trim to 90 seconds  
+ffmpeg -i full_video.mp4 -t 90 trimmed_video.mp4
+```
 
-- `create_wr_intro()` - **NEW**: Minimal geometric intro design
-- `download_youtube_video()` - Downloads highlights using yt-dlp (30 seconds)
-- `convert_to_instagram_format()` - Scales video to 9:16 aspect ratio
-- `concatenate_videos()` - Combines intro + highlights
-- `process_wr_video()` - Main workflow orchestrator
-- `main()` - CSV processing and automation
+### 5. Stacked Blur Creation
+- **Top/Bottom**: Blurred sections (640px each, 30 sigma blur)
+- **Middle**: Original video zoomed 130% (640px height)
+- **Text Overlays**: White text with black stroke
+  - WR rank at y=280
+  - Player name at y=1420  
+  - Team at y=1500
+  - Fantasy points at y=1580
 
-## Production Test Results ✅
+### 6. Video Concatenation
+- Combines intro + stacked blur using FFmpeg filter graph
+- Maintains audio sync throughout
+- Outputs final video: `[RANK]_[PLAYER]_FINAL_STACKED_WITH_INTRO.mp4`
 
-**Tested Successfully**:
-- ✅ Brian Thomas (#4 WR, JAX, 197 points)
-- ✅ YouTube download working
-- ✅ Minimal geometric intro generation
-- ✅ Instagram format conversion
-- ✅ Video concatenation
-- ✅ CSV updating (marked as posted)
-- ✅ Final video: `Brian_Thomas_instagram_final.mp4`
+### 7. Database Update & Cleanup
+- Updates CSV: `Posted=False` → `Posted=True`
+- Removes intermediate files (intro, raw download, blur-only)
+- Keeps only final output video
 
-**Performance**:
-- Intro generation: ~1 second
-- YouTube download: ~3 seconds
-- Format conversion: ~8 seconds  
-- Total time: ~15 seconds per video
+---
 
-## Next Steps
+## Troubleshooting
 
-1. **Scale Production**: Process remaining 99 WRs
-2. **Multi-Position**: Extend to QB/RB/TE 
-3. **Scheduling**: Set up automated posting schedule
-4. **Analytics**: Track video performance
+### "No unposted players found in top 75"
+**Cause**: All top 75 WRs have been processed.
+**Solution**: Check CSV for any players you want to re-process by changing `True` back to `False`.
+
+### "Error opening input file"
+**Cause**: Intermediate file missing (usually intro).
+**Solution**: Run the complete script `python3 create_stacked_blur_final.py` - don't run partial workflows.
+
+### YouTube download fails completely
+**Cause**: Video URL changed or restricted.
+**Solution**: Update the YouTube URL in `wr_top100_with_links.csv` for that player.
+
+### Dependencies missing
+**Cause**: Virtual environment not activated or missing packages.
+**Solution**: 
+```bash
+source venv/bin/activate
+pip install yt-dlp
+# FFmpeg should already be installed system-wide
+```
+
+---
+
+## Recent Successful Runs
+
+✅ **Xavier Legette** (#67 WR, CAR, 76 points)
+✅ **Michael Wilson** (#66 WR, ARI, 78 points)
+
+Both completed successfully with the YouTube download fallback method.
+
+---
+
+## Next Steps for Scaling
+
+### 1. Process All Remaining WRs (Currently ~65 left in top 75)
+```bash
+# Run multiple times until complete
+while true; do
+    python3 create_stacked_blur_final.py
+    sleep 5  # Brief pause between videos
+done
+```
+
+### 2. Multi-Position Support
+- Extend to QBs using `qb_top100_with_links.csv`
+- Extend to RBs using `rb_top100_with_links.csv` 
+- Extend to TEs using `te_top100.csv`
+
+### 3. Batch Processing Options
+- Modify script to accept argument: `python3 create_stacked_blur_final.py --count 10`
+- Process multiple players in one run
+
+---
+
+## Dependencies Confirmed Working
+
+- **Python 3** with virtual environment
+- **yt-dlp** for YouTube downloads (latest version)
+- **FFmpeg** for video processing (v7.1.1)
+- **CSV module** for data management (built-in)
+
+---
+
+## Key Configuration
+
+- **YouTube Duration**: 90 seconds (optimal for Instagram)
+- **Blur Intensity**: 30 sigma (Gaussian blur)
+- **Zoom Factor**: 130% for middle video section
+- **Text Font**: Arial Bold with stroke borders
+- **Output Quality**: CRF 23-25 for balanced size/quality
 
 ---
 
 *Last Updated: August 2025*
-*Status: PRODUCTION READY - Minimal Geometric Design Implemented*
-*Next WR to Process: Check CSV for Posted=False*
+*Status: ✅ FULLY OPERATIONAL*
+*Next Player: Automatically selected from CSV (Amari Cooper #65 expected)*
+
+---
+
+**💡 Pro Tip**: The system is designed to be fire-and-forget. Just run the command and let it work!
