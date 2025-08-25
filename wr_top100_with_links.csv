@@ -61,9 +61,9 @@ Rank,PlayerName,Team,FantasyPoints,False,Notes,YouTubeLink
 60,Keon Coleman,BUF,83,False,,https://www.youtube.com/watch?v=cSMIpkPQhr8
 61,Demario Douglas,NWE,82,False,,https://www.youtube.com/watch?v=MLUEUKZXSgs
 62,Tre Tucker,LVR,82,False,,https://www.youtube.com/watch?v=GcJFrHONQ_0
-63,Ray-Ray McCloud,ATL,79,False,,https://www.youtube.com/watch?v=O41J6pQvQvE
-64,Kayshon Boutte,NWE,79,False,,https://www.youtube.com/watch?v=a_DjmRpQIYA
-65,Amari Cooper,2TM,79,False,,https://www.youtube.com/watch?v=aZX0QfloYWw
+63,Ray-Ray McCloud,ATL,79,True,,https://www.youtube.com/watch?v=O41J6pQvQvE
+64,Kayshon Boutte,NWE,79,True,,https://www.youtube.com/watch?v=a_DjmRpQIYA
+65,Amari Cooper,2TM,79,True,,https://www.youtube.com/watch?v=aZX0QfloYWw
 66,Michael Wilson,ARI,78,True,,https://www.youtube.com/watch?v=BCKQOxS-2xw
 67,Xavier Legette,CAR,76,True,,https://www.youtube.com/watch?v=jDaGWcHxbzE
 68,Christian Watson,GNB,76,True,,https://www.youtube.com/watch?v=U75TFCO9Ou0

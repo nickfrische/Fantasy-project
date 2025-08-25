@@ -111,7 +111,7 @@ def download_youtube_video(url, output_path, duration=30):
         print("yt-dlp not found. Please install it with: pip install yt-dlp")
         raise Exception("yt-dlp not available")
     
-    # Build the download command
+    # Try primary method first (with --download-sections)
     cmd = yt_dlp_cmd + [
         '-f', 'bestvideo[height<=1080]+bestaudio/best[height<=1080]',
         '--merge-output-format', 'mp4',
@@ -122,8 +122,45 @@ def download_youtube_video(url, output_path, duration=30):
     ]
     
     print(f"Downloading first {duration} seconds from YouTube: {url}")
-    subprocess.run(cmd, check=True)
-    print(f"Downloaded: {output_path}")
+    try:
+        subprocess.run(cmd, check=True)
+        print(f"Downloaded: {output_path}")
+    except subprocess.CalledProcessError as e:
+        print(f"Primary download method failed, using fallback method...")
+        
+        # Fallback: Download full video then trim
+        temp_path = output_path.replace('.mp4', '_temp_full.mp4')
+        
+        # Download full video
+        fallback_cmd = yt_dlp_cmd + [
+            '-f', 'bestvideo[height<=1080]+bestaudio/best[height<=1080]',
+            '--merge-output-format', 'mp4',
+            '-o', temp_path,
+            '--no-playlist',
+            url
+        ]
+        
+        print("Downloading full video...")
+        subprocess.run(fallback_cmd, check=True)
+        
+        # Trim to desired duration using FFmpeg
+        trim_cmd = [
+            'ffmpeg',
+            '-i', temp_path,
+            '-t', str(duration),
+            '-c', 'copy',
+            '-y',
+            output_path
+        ]
+        
+        print(f"Trimming video to {duration} seconds...")
+        subprocess.run(trim_cmd, check=True)
+        
+        # Clean up temp file
+        if os.path.exists(temp_path):
+            os.remove(temp_path)
+        
+        print(f"Downloaded and trimmed: {output_path}")
 
 def convert_to_instagram_format(video_path, output_path):
     """Convert video to Instagram aspect ratio (9:16) with proper scaling"""
